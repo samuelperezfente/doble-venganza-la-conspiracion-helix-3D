@@ -1,0 +1,73 @@
+@startuml "AnyCarAI - Diagrama de Clases"
+
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+
+class "AnyCarAI (Asset Store)" as BaseCarAI {
+  // Prefab base por JN 3D
+}
+
+class "AnyCarAI" as CustomCarAI {
+  // Prefab personalizado
+}
+
+class "Body" as Body {
+  // Transform
+  +Vector3 Position = (0, 0, 0)
+  +Vector3 Rotation = (0, 0, 0)
+  +Vector3 Scale = (1, 1, 1)
+  +Tag = "Untagged" 
+  +Layer = "Vehicles"
+  
+  // Truck_body (Mesh Filter)
+  +Mesh Mesh = "Truck_body"
+  
+  // Mesh Renderer
+  +int Materials = 2
+  +CastShadows = "On"
+  +bool StaticShadowCaster = false
+  +bool ContributeGlobalIllumination = false
+  +ReceiveGI = "Light Probes"
+  +LightProbes = "Blend Probes"
+  +Transform AnchorOverride = None
+  +MotionVectors = "Per Object Motion"
+  +bool DynamicOcclusion = true
+  +LayerMask RenderingLayerMask = "Default"
+  
+  // Mesh Collider
+  +bool Convex = true
+  +bool IsTrigger = false
+  +bool ProvidesContacts = false
+  +CookingOptions = "Everything"
+  +PhysicMaterial Material = "CarBody"
+  +Mesh Mesh = "Truck_body"
+  
+  // Materials
+  +Material Truck_glass = "Universal Render Pipeline/Lit"
+  +Material Truck = "Universal Render Pipeline/Lit"
+}
+
+BaseCarAI <|-- CustomCarAI
+CustomCarAI *-- Body
+
+note right of BaseCarAI
+  Prefab original "AnyCarAI" de la Asset Store
+  creado por JN 3D.
+end note
+
+note right of CustomCarAI
+  Versión personalizada del prefab AnyCarAI.
+  Se mantiene la funcionalidad original pero
+  se añade el modelo específico.
+end note
+
+note right of Body
+  Componente añadido que contiene la malla
+  visual y física del vehículo. Incluye la
+  configuración de renderizado y colisiones.
+end note
+
+@enduml

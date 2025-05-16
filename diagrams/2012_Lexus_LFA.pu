@@ -1,0 +1,67 @@
+@startuml "2012 Lexus LFA - Diagrama de Clases"
+
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+
+class "Multiversal Vehicle Controller: Community\nCar Physics Controller" as BaseCar {
+  // Prefab base de BxB Studio
+}
+
+class "2012 Lexus LFA" as LexusLFA {
+  // Transform
+  +Vector3 Position = (214.8, 0.0114155, 159.9)
+  +Vector3 Rotation = (0, 183.92, 0)
+  +Vector3 Scale = (1, 1, 1)
+  +Tag = "Player"
+  +Layer = "Vehicles"
+  
+  // Box Collider
+  +bool IsTrigger = false
+  +bool ProvidesContacts = false
+  +Material Material = "None (Physics Material)"
+  +Vector3 Center = (0, 0.56, 0)
+  +Vector3 Size = (0.5, 0.5, 0.5)
+  +int LayerOverridePriority = 0
+  +LayerMask IncludeLayers = "Nothing"
+  +LayerMask ExcludeLayers = "Nothing"
+}
+
+class "Vehicle (Script)" as VehicleScript {
+  +Components = [✓]
+  +Performance = [!]
+  +Transmission = [✓]
+  +Brakes = [✓]
+  +Steering = [✓]
+  +Suspensions = [✓]
+  +Tires = [✓]
+  +Stability & Physics = [✓]
+  +Audio = [✓]
+  
+  // Otro ajuste
+  +Trailer Link = [ ]
+  
+  // Estado general
+  +string OverallState = "Some features may not work as expected."
+  +string Warning = "The torque amount might be too small and not enough to move the car."
+}
+
+BaseCar <|-- LexusLFA
+LexusLFA *-- VehicleScript
+
+note right of LexusLFA
+  Este vehículo hereda del prefab "Multiversal Vehicle Controller: Community - Car Physics Controller"
+  de la Asset Store de Unity, creado por BxB Studio.
+  Se han personalizado sus propiedades de Transform y Box Collider como se muestra.
+end note
+
+note right of VehicleScript
+  Script principal que controla el comportamiento del vehículo.
+  Es el componente principal para el coche del jugador.
+  La señal de advertencia indica que puede haber un problema
+  con la configuración del torque que podría afectar al movimiento.
+end note
+
+@enduml

@@ -1,0 +1,145 @@
+@startuml Car_X_Diagrama_de_Clases
+
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+
+class "HD Low Poly Racing Car No.1201" as BaseCar {
+  // Clase base del prefab de asset store por azerilo
+}
+
+class "Car 1" as Car1 {
+  
+  // Rigidbody
+  +float Mass = 1351
+  +float LinearDamping = 0.0299
+  +float AngularDamping = 0.245
+  +bool AutomaticCenterOfMass = false
+  +Vector3 CenterOfMass = (0, 0.522657, -0.310321)
+  +bool AutomaticTensor = true
+  +bool UseGravity = true
+  +bool IsKinematic = false
+  +Interpolate Interpolate = "Interpolate"
+  +CollisionDetection CollisionDetection = "Discrete"
+  
+  // Box Collider
+  +bool IsTrigger = false
+  +bool ProvidesContacts = false
+  +Material Material = "None (Physics Material)"
+  +Vector3 Center = (0, 0.25, 0.29) 
+  +Vector3 Size = (1.93, 1.4, 4.44)
+
+  // Transform
+  +Vector3 Rotation = (0, 0, 0)
+  +Vector3 Scale = (1, 1, 1)
+}
+
+class "WheelColliders" as WheelColliders {
+}
+
+class "Wheel_FL" as WheelFL {
+  // WheelCollider delantero izquierdo
+}
+
+class "Wheel_FR" as WheelFR {
+  // WheelCollider delantero derecho
+}
+
+class "Wheel_RL" as WheelRL {
+  // WheelCollider trasero izquierdo
+}
+
+class "Wheel_RR" as WheelRR {
+  // WheelCollider trasero derecho
+}
+
+class "Checks" as Checks {
+  +int Count = 3
+}
+
+class "Check" as Check1 {
+  // Primer punto de verificación
+}
+
+class "Check (1)" as Check2 {
+  // Segundo punto de verificación
+}
+
+class "Check (2)" as Check3 {
+  // Tercer punto de verificación
+}
+
+class "Car AI Controller (Script)" as CarAIController {
+  // Referencias a ruedas
+  +Transform Front Right = Wheel_FR (Transform)
+  +Transform Front Left = Wheel_FL (Transform)
+  +Transform Rear Right = Wheel_RR (Transform)
+  +Transform Rear Left = Wheel_RL (Transform)
+  +WheelCollider Front Right Collider = Wheel_FR (Wheel Collider)
+  +WheelCollider Front Left Collider = Wheel_FL (Wheel Collider)
+  +WheelCollider Rear Right Collider = Wheel_RR (Wheel Collider)
+  +WheelCollider Rear Left Collider = Wheel_RL (Wheel Collider)
+  
+  // Checkpoints y detecciones
+  +Transform Next Checkpoint = Checkpoint_0 (Transform)
+  +bool Check Point Search = true
+  +bool Object Detected = false
+  +bool Is Car Controlled By AI = true
+  +LayerMask Seen Layers = "Everything"
+  
+  // Configuraciones del coche
+  +float Kmh = 80
+  +float Speed Limit = 120
+  +float Distance From Objects = 2
+  +float Recklessness Threshold = 0
+  +bool Despawn For Flipping = true
+  +bool Taxi Mode = false
+  +float Acceleration = 1000
+  +float Breaking = 100
+}
+
+BaseCar <|-- Car1
+
+Car1 *-- WheelColliders
+Car1 *-- Checks
+Car1 *-- CarAIController
+
+WheelColliders *-- WheelFL
+WheelColliders *-- WheelFR
+WheelColliders *-- WheelRL
+WheelColliders *-- WheelRR
+
+Checks *-- Check1
+Checks *-- Check2
+Checks *-- Check3
+
+note right of Car1
+  Este coche hereda del prefab "HD Low Poly Racing Car No.1201"
+  de la Asset Store de Unity, creado por azerilo.
+  Se han personalizado sus propiedades de Transform,
+  Rigidbody y Box Collider como se muestra.
+end note
+
+note right of WheelColliders
+  Componente agregado al prefab original
+  que contiene los colliders para las ruedas
+end note
+
+note right of Checks
+  Componente agregado al prefab original
+  que contiene los puntos de verificación
+end note
+
+note right of CarAIController
+  Script que controla el comportamiento del coche
+  mediante IA, gestionando el movimiento, detección
+  de checkpoints y obstáculos.
+end note
+
+note bottom of Car1
+  El resto de coches con nombres similares (1, 2, 3, etc.) son iguales salvo por el chasis
+end note
+
+@enduml

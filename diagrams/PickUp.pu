@@ -1,0 +1,91 @@
+@startuml "PickUp - Diagrama de Clases"
+
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+
+class "Pickup model (Asset Store)" as BasePickup {
+  // Prefab base por Perfect Games
+}
+
+class "PickUp_Damaged" as CustomPickup {
+  // Transform
+  +Vector3 Position = (205.1296, 0.0267235, 160.5564)
+  +Vector3 Rotation = (0, 188.62, 0)
+  +Vector3 Scale = (1, 1, 1)
+  +Tag = "Untagged" 
+  +Layer = "Default"
+  
+  // Rigidbody
+  +float Mass = 1351
+  +float LinearDamping = 0.0299
+  +float AngularDamping = 0.245
+  +bool AutomaticCenterOfMass = false
+  +Vector3 CenterOfMass = (0, 0.522657, -0.310320)
+  +bool AutomaticTensor = true
+  +bool UseGravity = true
+  +bool IsKinematic = false
+  +Interpolate Interpolate = "Interpolate"
+  +CollisionDetection CollisionDetection = "Discrete"
+  
+  // Box Collider
+  +bool IsTrigger = false
+  +bool ProvidesContacts = false
+  +Material Material = "None (Physics Material)"
+  +Vector3 Center = (0, 0.94, 0) 
+  +Vector3 Size = (2.14, 1.9, 5.48)
+}
+
+class "Car AI Controller (Script)" as CarAIController {
+  // Referencias a ruedas
+  +Transform Front Right = Wheel_FR (Transform)
+  +Transform Front Left = Wheel_FL (Transform)
+  +Transform Rear Right = Wheel_RR (Transform)
+  +Transform Rear Left = Wheel_RL (Transform)
+  +WheelCollider Front Right Collider = Wheel_FR (Wheel Collider)
+  +WheelCollider Front Left Collider = Wheel_FL (Wheel Collider)
+  +WheelCollider Rear Right Collider = Wheel_RR (Wheel Collider)
+  +WheelCollider Rear Left Collider = Wheel_RL (Wheel Collider)
+  
+  // Checkpoints y detecciones
+  +Transform Next Checkpoint = Checkpoint_4 (Transform)
+  +bool Check Point Search = true
+  +bool Object Detected = false
+  +bool Is Car Controlled By AI = true
+  +LayerMask Seen Layers = "Everything"
+  
+  // Configuraciones del coche
+  +float Kmh = 0
+  +float Speed Limit = 50
+  +float Distance From Objects = 2
+  +float Recklessness Threshold = 0
+  +bool Despawn For Flipping Over = true
+  +bool Taxi Mode = false
+  +float Acceleration = 1000
+  +float Breaking = 100
+}
+
+BasePickup <|-- CustomPickup
+CustomPickup *-- CarAIController
+
+note right of BasePickup
+  Prefab original "Pickup model" de la Asset Store
+  creado por Perfect Games.
+end note
+
+note right of CustomPickup
+  Versión personalizada del prefab Pickup.
+  La diferencia entre los distintos pickups es 
+  únicamente el modelo del chasis, manteniendo
+  la misma funcionalidad base.
+end note
+
+note right of CarAIController
+  Script que controla el comportamiento del vehículo
+  mediante IA, gestionando movimiento, detección
+  de checkpoints y obstáculos.
+end note
+
+@enduml

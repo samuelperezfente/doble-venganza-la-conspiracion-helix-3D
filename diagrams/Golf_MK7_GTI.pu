@@ -1,0 +1,111 @@
+@startuml "2019 VW Golf MK7 GTI - Diagrama de Clases"
+
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+
+class "Multiversal Vehicle Controller: Community\nCar Physics Controller" as BaseCar {
+  // Prefab base de BxB Studio
+}
+
+class "2019 VW Golf MK7 GTI" as GolfMK7 {
+  // Transform
+  +Vector3 Rotation = (0, -15.394, 0)
+  +Vector3 Scale = (1, 1, 1)
+  +Tag = "Traffic"
+  +Layer = "Vehicles"
+  
+  // Rigidbody
+  +float Mass = 1351
+  +float LinearDamping = 0.0299
+  +float AngularDamping = 0.245
+  +bool AutomaticCenterOfMass = false
+  +Vector3 CenterOfMass = (0, 0.522657, -0.310321)
+  +bool AutomaticTensor = true
+  +bool UseGravity = true
+  +bool IsKinematic = false
+  +Interpolate Interpolate = "Interpolate"
+  +CollisionDetection CollisionDetection = "Discrete"
+  
+  // Box Collider
+  +bool IsTrigger = false
+  +bool ProvidesContacts = false
+  +Material Material = "None (Physics Material)"
+  +Vector3 Center = (0, 0.75, 0) 
+  +Vector3 Size = (1.67, 1.49, 4.15)
+}
+
+class "Car AI Controller (Script)" as CarAIController {
+  // Referencias a ruedas
+  +Transform Front Right = WheelFR (Transform)
+  +Transform Front Left = WheelFL (Transform)
+  +Transform Rear Right = WheelRR (Transform)
+  +Transform Rear Left = WheelRL (Transform)
+  +WheelCollider Front Right Collider = WheelFR (Wheel Collider)
+  +WheelCollider Front Left Collider = WheelFL (Wheel Collider)
+  +WheelCollider Rear Right Collider = WheelRR (Wheel Collider)
+  +WheelCollider Rear Left Collider = WheelRL (Wheel Collider)
+  
+  // Checkpoints y detecciones
+  +Transform Next Checkpoint = Checkpoint_59 (Transform)
+  +bool Check Point Search = true
+  +bool Object Detected = false
+  +bool Is Car Controlled By AI = true
+  +LayerMask Seen Layers = "Everything"
+  
+  // Configuraciones del coche
+  +float Kmh = 0
+  +float Speed Limit = 50
+  +float Distance From Objects = 2
+  +float Recklessness Threshold = 0
+  +bool Despawn For Flipping = true
+  +bool Taxi Mode = false
+  +float Acceleration = 1000
+  +float Breaking = 100
+}
+
+class "Checks" as Checks {
+  +int Count = 3
+}
+
+class "Check" as Check1 {
+  // Primer punto de verificación
+}
+
+class "Check (1)" as Check2 {
+  // Segundo punto de verificación
+}
+
+class "Check (2)" as Check3 {
+  // Tercer punto de verificación
+}
+
+BaseCar <|-- GolfMK7
+
+GolfMK7 *-- CarAIController
+GolfMK7 *-- Checks
+
+Checks *-- Check1
+Checks *-- Check2
+Checks *-- Check3
+
+note right of GolfMK7
+  Este vehículo hereda del prefab "Multiversal Vehicle Controller: Community - Car Physics Controller"
+  de la Asset Store de Unity, creado por BxB Studio.
+  Se han personalizado sus propiedades de Transform, Rigidbody y Box Collider como se muestra.
+end note
+
+note right of Checks
+  Componente agregado al prefab original
+  que contiene los puntos de verificación
+end note
+
+note right of CarAIController
+  Script que controla el comportamiento del coche
+  mediante IA, gestionando el movimiento, detección
+  de checkpoints y obstáculos.
+end note
+
+@enduml

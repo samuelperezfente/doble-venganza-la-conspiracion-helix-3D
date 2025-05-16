@@ -1,0 +1,215 @@
+@startuml "ZIL130 - Diagrama de Clases"
+
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+
+class "ZIL 130 Military truck" as BaseCar {
+  // Prefab base por JN 3D
+}
+
+class "ZIL130_Cover" as ZIL130 {
+  // Transform
+  +Vector3 Position = (214.8, 0.01141155, 159.9)
+  +Vector3 Rotation = (0, 183.92, 0)
+  +Vector3 Scale = (1, 1, 1)
+  +Tag = "Player"
+  +Layer = "Vehicles"
+  
+  // Vehicle (Script)
+  +VehicleConfigurations configurations
+  +Components status = OK
+  +Performance status = Warning
+  +Transmission status = OK
+  +Brakes status = OK
+  +Steering status = OK
+  +Suspensions status = OK
+  +Tires status = OK
+  +Stability & Physics status = OK
+  +Audio status = OK
+  +string OverallState = "Some features may not work as expected."
+  +string Warning = "The torque amount might be too small and not enough to move the car."
+}
+
+class "Body" as Body {
+  // Transform
+  +Vector3 Position = (0, 0, 0)
+  +Vector3 Rotation = (0, 0, 0)
+  +Vector3 Scale = (1, 1, 1)
+  +Tag = "Untagged" 
+  +Layer = "Vehicles"
+  
+  // Truck_body (Mesh Filter)
+  +Mesh Mesh = "Truck_body"
+  
+  // Mesh Renderer
+  +int Materials = 2
+  +CastShadows = "On"
+  +bool StaticShadowCaster = false
+  +bool ContributeGlobalIllumination = false
+  +ReceiveGI = "Light Probes"
+  +LightProbes = "Blend Probes"
+  +Transform AnchorOverride = None
+  +MotionVectors = "Per Object Motion"
+  +bool DynamicOcclusion = true
+  +LayerMask RenderingLayerMask = "Default"
+  
+  // Mesh Collider
+  +bool Convex = true
+  +bool IsTrigger = false
+  +bool ProvidesContacts = false
+  +CookingOptions = "Everything"
+  +PhysicMaterial Material = "CarBody"
+  +Mesh Mesh = "Truck_body"
+  
+  // Materials
+  +Material Truck_glass = "Universal Render Pipeline/Lit"
+  +Material Truck = "Universal Render Pipeline/Lit"
+}
+
+class "WheelBrakes" as WheelBrakes {
+  // Contenedor de frenos de ruedas
+}
+
+class "WheelTransforms" as WheelTransforms {
+  // Contenedor de transformaciones de ruedas
+}
+
+class "Truck_Wheel_FL_Brake" as WheelBrake_FL {
+  // Freno delantero izquierdo
+}
+
+class "Truck_Wheel_FR_Brake" as WheelBrake_FR {
+  // Freno delantero derecho
+}
+
+class "Truck_Wheel_RL_Brake" as WheelBrake_RL {
+  // Freno trasero izquierdo
+}
+
+class "Truck_Wheel_RR_Brake" as WheelBrake_RR {
+  // Freno trasero derecho
+}
+
+class "Truck_Wheel_FL" as WheelTransform_FL {
+  // Transformación de rueda delantera izquierda
+}
+
+class "Truck_Wheel_FR" as WheelTransform_FR {
+  // Transformación de rueda delantera derecha
+}
+
+class "Truck_Wheel_RL" as WheelTransform_RL {
+  // Transformación de rueda trasera izquierda
+}
+
+class "Truck_Wheel_RR" as WheelTransform_RR {
+  // Transformación de rueda trasera derecha
+}
+
+class "Rim_FL" as Rim_FL {
+  // Llanta delantera izquierda
+}
+
+class "Tire_FL" as Tire_FL {
+  // Neumático delantero izquierdo
+}
+
+class "Disk03_FL" as Disk03_FL {
+  // Disco de freno delantero izquierdo
+}
+
+class "Rim_FR" as Rim_FR {
+  // Llanta delantera derecha
+}
+
+class "Tire_FR" as Tire_FR {
+  // Neumático delantero derecho
+}
+
+class "Disk03-Flipped_FR" as Disk03Flipped_FR {
+  // Disco de freno delantero derecho invertido
+}
+
+class "Rim_RL" as Rim_RL {
+  // Llanta trasera izquierda
+}
+
+class "Tire_RL" as Tire_RL {
+  // Neumático trasero izquierdo
+}
+
+class "Disk03_RL" as Disk03_RL {
+  // Disco de freno trasero izquierdo
+}
+
+class "Rim_RR" as Rim_RR {
+  // Llanta trasera derecha
+}
+
+class "Tire_RR" as Tire_RR {
+  // Neumático trasero derecho
+}
+
+class "Disk03-Flipped_RR" as Disk03Flipped_RR {
+  // Disco de freno trasero derecho invertido
+}
+
+BaseCar <|-- ZIL130
+
+ZIL130 *-- Body
+ZIL130 *-- WheelBrakes
+ZIL130 *-- WheelTransforms
+
+WheelBrakes *-- WheelBrake_FL
+WheelBrakes *-- WheelBrake_FR
+WheelBrakes *-- WheelBrake_RL
+WheelBrakes *-- WheelBrake_RR
+
+WheelTransforms *-- WheelTransform_FL
+WheelTransforms *-- WheelTransform_FR
+WheelTransforms *-- WheelTransform_RL
+WheelTransforms *-- WheelTransform_RR
+
+WheelTransform_FL *-- Rim_FL
+WheelTransform_FL *-- Tire_FL
+WheelTransform_FL *-- Disk03_FL
+
+WheelTransform_FR *-- Rim_FR
+WheelTransform_FR *-- Tire_FR
+WheelTransform_FR *-- Disk03Flipped_FR
+
+WheelTransform_RL *-- Rim_RL
+WheelTransform_RL *-- Tire_RL
+WheelTransform_RL *-- Disk03_RL
+
+WheelTransform_RR *-- Rim_RR
+WheelTransform_RR *-- Tire_RR
+WheelTransform_RR *-- Disk03Flipped_RR
+
+note right of ZIL130
+  Este vehículo hereda del prefab "ZIL 130 Military truck"
+  de la Asset Store de Unity, creado por JN 3D.
+  Tiene configuración de vehículo con varios estados
+  y un aviso de torque insuficiente.
+end note
+
+note right of Body
+  Componente principal del chasis con su
+  malla, renderizado y colisión.
+end note
+
+note right of WheelBrakes
+  Componente que contiene los frenos
+  para las cuatro ruedas del camión.
+end note
+
+note right of WheelTransforms
+  Componente que contiene las transformaciones
+  para las ruedas, cada una con llanta,
+  neumático y disco de freno.
+end note
+
+@enduml

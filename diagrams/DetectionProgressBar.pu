@@ -1,0 +1,35 @@
+@startuml DetectionProgressBar Diagrama de Clases
+
+class DetectionProgressBar {
+    + Transform player
+    + float detectionRate
+    + float recoveryRate
+    + float detectionRadius
+    + float speedThreshold
+    - ProgressBar progressBar
+    - Rigidbody playerRb
+    - float progress
+    + void Start()
+    + void Update()
+    - bool IsPoliceNearby(Vector3 position, float radius)
+}
+
+class ProgressBar {
+    + void SetProgress(float value)
+}
+
+class MonoBehaviour {
+}
+
+MonoBehaviour <|-- DetectionProgressBar
+MonoBehaviour <|-- ProgressBar
+
+DetectionProgressBar --> ProgressBar : requires >
+DetectionProgressBar --> "1" Transform : player >
+DetectionProgressBar --> "1" Rigidbody : playerRb >
+
+note top of DetectionProgressBar
+  RequireComponent(typeof(ProgressBar))
+end note
+
+@enduml

@@ -1,0 +1,153 @@
+@startuml "Superminicar - Diagrama de Clases"
+
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+
+class "Super Mini Car Model by WITS Gaming" as BaseCar {
+  // Prefab base de Muhammad Ali Zeb
+}
+
+class "Superminicar" as SuperMiniCar {
+  // Transform
+  +Vector3 Rotation = (0, 126.364, 0)
+  +Vector3 Scale = (0.72, 0.72, 0.72)
+  +Tag = "Untagged"
+  +Layer = "Default"
+  
+  // Rigidbody
+  +float Mass = 1351
+  +float LinearDamping = 0.0299
+  +float AngularDamping = 0.245
+  +bool AutomaticCenterOfMass = false
+  +Vector3 CenterOfMass = (0, 0.522657, -0.310321)
+  +bool AutomaticTensor = true
+  +bool UseGravity = true
+  +bool IsKinematic = false
+  +Interpolate Interpolate = "Interpolate"
+  +CollisionDetection CollisionDetection = "Discrete"
+  
+  // Box Collider
+  +bool IsTrigger = false
+  +bool ProvidesContacts = false
+  +Material Material = "None (Physics Material)"
+  +Vector3 Center = (0, 1.1, 0.78) 
+  +Vector3 Size = (2.31, 2.05, 4.99)
+}
+
+class "Car AI Controller (Script)" as CarAIController {
+  // Referencias a ruedas
+  +Transform Front Right = tire_FR (Transform)
+  +Transform Front Left = tire_FL (Transform)
+  +Transform Rear Right = tire_RR (Transform)
+  +Transform Rear Left = tire_RL (Transform)
+  +WheelCollider Front Right Collider = tire_FR (Wheel Collider)
+  +WheelCollider Front Left Collider = tire_FL (Wheel Collider)
+  +WheelCollider Rear Right Collider = tire_RR (Wheel Collider)
+  +WheelCollider Rear Left Collider = tire_RL (Wheel Collider)
+  
+  // Checkpoints y detecciones
+  +Transform Next Checkpoint = Checkpoint_99 (Transform)
+  +bool Check Point Search = true
+  +bool Object Detected = false
+  +bool Is Car Controlled By AI = true
+  +LayerMask Seen Layers = "Everything"
+  
+  // Configuraciones del coche
+  +float Kmh = 50
+  +float Speed Limit = 100
+  +float Distance From Objects = 2
+  +float Recklessness Threshold = 0
+  +bool Despawn For Flipping = true
+  +bool Taxi Mode = false
+  +float Acceleration = 100000
+  +float Breaking = 100
+}
+
+class "WheelColliders" as WheelColliders {
+  // Contenedor para los wheel colliders
+}
+
+class "Wheel_FL" as WheelCollider_FL {
+  // WheelCollider delantero izquierdo
+}
+
+class "Wheel_FR" as WheelCollider_FR {
+  // WheelCollider delantero derecho
+}
+
+class "Wheel_RL" as WheelCollider_RL {
+  // WheelCollider trasero izquierdo
+}
+
+class "Wheel_RR" as WheelCollider_RR {
+  // WheelCollider trasero derecho
+}
+
+class "Checks" as Checks {
+  +int Count = 3
+}
+
+class "Check" as Check1 {
+  // Primer punto de verificación
+}
+
+class "Check (1)" as Check2 {
+  // Segundo punto de verificación
+}
+
+class "Check (2)" as Check3 {
+  // Tercer punto de verificación
+}
+
+class "Subaru Model" as SubaruModel {
+  // Modelo adicional de Subaru
+}
+
+BaseCar <|-- SuperMiniCar
+
+SuperMiniCar *-- CarAIController
+SuperMiniCar *-- Checks
+SuperMiniCar *-- SubaruModel
+SuperMiniCar *-- WheelColliders
+
+WheelColliders *-- WheelCollider_FL
+WheelColliders *-- WheelCollider_FR
+WheelColliders *-- WheelCollider_RL
+WheelColliders *-- WheelCollider_RR
+
+Checks *-- Check1
+Checks *-- Check2
+Checks *-- Check3
+
+note right of SuperMiniCar
+  Este vehículo hereda del prefab "Super Mini Car Model by WITS Gaming"
+  de la Asset Store de Unity, creado por Muhammad Ali Zeb.
+  Se han personalizado sus propiedades de Transform,
+  Rigidbody y Box Collider como se muestra.
+end note
+
+note right of Checks
+  Componente agregado al prefab original
+  que contiene los puntos de verificación
+end note
+
+note right of CarAIController
+  Script que controla el comportamiento del coche
+  mediante IA, gestionando el movimiento, detección
+  de checkpoints y obstáculos.
+end note
+
+note right of SubaruModel
+  Se añadió el modelo de coche Subaru
+  al prefab original del Superminicar
+end note
+
+note right of WheelColliders
+  Componente agregado que contiene los colisionadores
+  de las ruedas para la simulación física
+end note
+
+@enduml

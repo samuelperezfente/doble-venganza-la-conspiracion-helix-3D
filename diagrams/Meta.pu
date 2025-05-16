@@ -1,0 +1,17 @@
+@startuml Meta Diagrama de Clases
+
+class Meta {
+    + string nextSceneName
+    - void OnTriggerEnter(Collider other)
+}
+
+class MonoBehaviour {
+}
+
+MonoBehaviour <|-- Meta
+
+note right of Meta::nextSceneName
+  Tooltip("Nombre de la escena que se cargará al llegar a la meta.")
+end note
+
+@enduml
